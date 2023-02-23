@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: client-imdb
+    image: client-imdb
+    build:
+      context: .
+      target: production
