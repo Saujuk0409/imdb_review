@@ -56,7 +56,7 @@ function HomePage() {
        <Comingsoon/>
        <BornToday/>
        <TopNews/>
-       <RecentlyViewed/>
+       {/* <RecentlyViewed/> */}
        <Footer/>
     </div>
   )

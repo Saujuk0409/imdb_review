@@ -36,9 +36,9 @@ const handleSubmit = async (e)=>{
            localStorage.setItem("token",data);
            localStorage.setItem("name",name);
            localStorage.setItem("email",email)
-            const response=await axios.post(`${process.env.REACT_APP_IP}/imdbapi/verify`,{name,password,email,data})
-            console.log(response);
-            return navigate('/'
+            const response=await axios.post(`${process.env.REACT_APP_IP}/imdbapi/saveuser`,{name,password,email,data})
+            console.log("save user response ",response);
+             navigate('/'
             ,{
               state:{
                 email:email,
@@ -47,6 +47,7 @@ const handleSubmit = async (e)=>{
               }
             }
             )
+          
         } 
     }
         catch (error) {
@@ -81,7 +82,7 @@ function resendOTP(){
           <form >
             <div className="signinhead">
               <p style={{fontsize:"1.9rem",fontWeight:"400",paddingTop:"9%"}}>Verify email address</p>
-              <p style={{fontSize:"0.8rem",fontWeight:"300",paddingRight:"1%"}}>To verify your email, we've sent a One Time Password (OTP) to {email}</p>
+              <p style={{fontSize:"1.5rem",fontWeight:"300",paddingRight:"1%"}}>To verify your email, we've sent a One Time Password (OTP) to {email}</p>
             </div>
             <label>Enter otp</label>
             <input
@@ -95,6 +96,7 @@ function resendOTP(){
               onClick={handleSubmit}
               style={{
                 marginTop: "5%",
+                padding:"4%",
                 width: "82%",
                 marginRight: "6%",
                 backgroundColor: "#f0c14b",
@@ -106,9 +108,10 @@ function resendOTP(){
             >
               Sign in
             </button>
-            <p style={{fontSize:"0.7rem",marginRight:"5%", marginTop:"7%"}}>By creating an IMDb account, you agree to the IMDb </p>
-            <p style={{fontSize:"0.7rem", marginTop:"-3%"}}><a href=''>Conditions of Use</a></p>
-            <p style={{fontSize:"0.8rem", marginTop:"-3%",marginBottom:"5%", paddingLeft:"35%"}}><a href='' onClick={resendOTP} >Resend otp</a></p>
+            <p style={{fontSize:"1rem",marginRight:"5%", marginTop:"7%"}}>By creating an IMDb account, you agree to the IMDb </p>
+            <p style={{fontSize:"1rem", marginTop:"-3%"}}><a href=''>Conditions of Use</a></p>
+            <hr></hr>
+            <p style={{fontSize:"1.5rem", marginTop:"-3%",marginBottom:"5%", paddingLeft:"35%"}}><a href='' onClick={resendOTP} >Resend otp</a></p>
           </form>
           <hr style={{ marginTop: "1.5%", boxSizing: "border-box" }}></hr>
           <div className="ftrcontent">

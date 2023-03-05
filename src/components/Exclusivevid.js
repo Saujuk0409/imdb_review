@@ -1,6 +1,5 @@
 import React from 'react'
 import  '../styles/styles.css'
-import { useState } from 'react'
 import image2 from "../assests/featuredimg.jpg"
 import FeatuedCard from './cards/FeatuedCard'
 import Carousel from 'better-react-carousel'
@@ -8,6 +7,8 @@ import WatchCard from './cards/WatchCard'
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
 import ExclusivevidCard from './cards/ExclusivevidCard'
+import { useState , useEffect} from 'react'
+import axios from 'axios'
 
 const movies = [
     { category:"list",
@@ -28,6 +29,23 @@ const movies = [
     }
 ]
 function Exclusivediv() {
+
+  const [movies,setMovies]=useState();
+  useEffect(()=>{
+    axios
+    .get(`${process.env.REACT_APP_IP}/imdbapi/exclusive`)
+    .then(function(resp){
+        console.log("Exclusive data",resp.data);
+        const {data}=resp.data;
+        console.log("destructured data for exclusive",{data})
+        if(data){
+          setMovies(data);
+          // console.log("In theaters data is",movies);
+        }
+        return(resp.data);
+      }) ;
+  },[])
+
     let settings = {
       nextArrow: (
         <button className="nextarrow" style={{ paddingLeft: "2%",backgroundColor:"rgba(0, 0, 0, 0.553)",marginTop:"-5%"}}>
@@ -53,10 +71,10 @@ function Exclusivediv() {
     };  
   return (
     <>
-      <div className='featureddiv'>
-      <h1 style={{color:"#F5C518",marginLeft:"15%"}}>Exclusive videos</h1>
-      <div className='toppicks' style={{paddingLeft:"15.5%",marginTop:"7%"}}>
-            <div className='vl' style={{borderLeft:"2px solid #F5C518"}}></div>
+      <div className='watchcarousl' style={{paddingTop:"2%"}}>
+      <h1 style={{color:"#F5C518",left:"0%",marginLeft:"-80%"}}>Exclusive Videoes</h1>
+      <div className='toppicks' style={{marginTop:"2.6%"}}>
+            <div className='vl' style={{borderLeft:"5px solid #F5C518"}}></div>
             <h3>IMDb Originals</h3>
             <div className="wcarrows" style={{paddingLeft:"1%",paddingTop:"0.5%"}}>
                     <div class="wcleftarrow" role="presentation">
@@ -65,8 +83,9 @@ function Exclusivediv() {
                     </svg>
                     </div>
             </div>
-        </div>
-        <p style={{float:"left",color:"white",marginLeft:"15%",marginTop:"1%",fontSize:"2.1rem",color:"grey",fontWeight:"400"}}>Celebrity interviews, trending entertainment stories, and expert analysis</p>
+      </div>
+      <p style={{float:"left",color:"white",marginLeft:"-85%",marginTop:"0%",fontSize:"2.3rem",color:"grey",fontWeight:"400"}}>Somtimes near you</p>
+    </div>
       {/* <div className='featuredcarousel' style={{width:"75%"}}>
           <Carousel cols={3} rows={1} gap={10} loop showArrows={false} style={{width:"100%"}}>
                 {
@@ -80,8 +99,18 @@ function Exclusivediv() {
           </Carousel>
 
       </div> */}
+      <div className="scroller" style={{width:"70%",marginLeft:"12%",marginTop:"1%"}}>
+    <Slide {...settings} slidesToScroll={3} slidesToShow={3} style={{height:"100vh"}}>
+        {
+            movies && movies.map((card,index)=>(
+              <ExclusivevidCard image={card.poster} desc={card.title}/>
+                      )
+                      )
+                  }
+    </Slide>
     </div>
-    <div className="scroller" style={{width:"100%",marginTop:"3%"}}>
+    {/* </div> */}
+    {/* <div className="scroller" style={{width:"100%",marginTop:"3%"}}>
     <Slide {...settings} slidesToScroll={6} slidesToShow={6} style={{height:"100vh"}}>
         {
             movies && movies.map((card,index)=>(
@@ -89,8 +118,8 @@ function Exclusivediv() {
                       )
                       )
                   }
-    </Slide>
-    </div>
+    </Slide> */}
+    {/* </div> */}
     </>
   )
 }                                                                                         

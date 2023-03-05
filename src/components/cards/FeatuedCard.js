@@ -22,8 +22,8 @@ function FeatuedCard(props) {
     <div className='featuredcard' onClick={moviesList}>
       <img src={props.image} alt=""/>
       <div className="overlay__content">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" class="ipc-icon ipc-icon--list ipc-lockup-overlay__icon" id="iconContext-list" viewBox="0 0 24 24" fill="current color" role="presentation">
-            <g fill="rgb(198, 195, 195)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" class="ipc-icon ipc-icon--list ipc-lockup-overlay__icon" id="iconContext-list" viewBox="0 0 20 20" fill="white" role="presentation">
+            <g fill="none">
                 <path d="M0 0h24v24H0V0z"></path>
                 <path opacity=".87" d="M0 0h24v24H0V0z"></path>
             </g>

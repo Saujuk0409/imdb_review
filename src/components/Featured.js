@@ -129,7 +129,7 @@ function Featured() {
 
     </div>
     <div className="scroller" style={{width:"60%",marginLeft:"14%",marginTop:"3%"}}>
-      <Slide {...settings} slidesToScroll={3} slidesToShow={3} style={{height:"100vh"}}>
+      <Slide {...settings} slidesToScroll={2} slidesToShow={2} style={{height:"100vh"}}>
         {
             movies && movies.map((card,index)=>(
                       <FeatuedCard id={card.id} image={card.picture.link} desc={card.title} cat={card.type} open={isOpen} notOpen={()=>setIsOpen(false)}/>

@@ -122,10 +122,10 @@ function Exploreimp() {
 
   const [array,setArray] = useState("null")
   const [filteredarray,setFilteredarray]= useState()
-
+  // moviess = movies.filter(e=>e.target==="primevideo")
   useEffect(()=>{
     setArray(movies)
-    setFilteredarray(movies.filter(e=>e.target==="primevideo"))
+    setFilteredarray(movies)
   },[])
 
   const filterdata = (value)=>{
@@ -207,10 +207,9 @@ function Exploreimp() {
                     }
           </Carousel>
           </div>
-
       </div> */}
     </div>
-    {/* <div className="scroller" style={{width:"70%",marginLeft:"14%",marginTop:"3%"}}> */}
+    <div className="scroller" style={{width:"70%",marginLeft:"10%",marginTop:"3%"}}>
     <Slide {...settings} slidesToScroll={6} slidesToShow={6} style={{height:"100vh"}}>
         {
              filteredarray && filteredarray.map((card,index)=>(
@@ -219,7 +218,7 @@ function Exploreimp() {
                   )
                   }
     </Slide>
-  {/* </div> */}
+  </div>
     </>
   )
 }

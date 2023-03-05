@@ -103,7 +103,7 @@ function Overview() {
                           {movie?.overview.slice(0, 218) + "..."}
                         </p>
                       )}
-                      <h1>{movie?.title}</h1>
+                      <h1 style={{bottom:"5%"}}>{movie?.title}</h1>
                       {/* <p>description</p> */}
                       
                     </div>
@@ -114,12 +114,14 @@ function Overview() {
                   <img
                     src={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
                     alt={movie?.title}
+                    style={{background:"linear-gradient(transparent 0%, transparent 65%, rgba(0, 0, 0, 0.7) 77%, rgb(0, 0, 0) 85%, rgb(0, 0, 0) 100%);"}}
                   />
                 ) : (
                   <img
                     className="posterimg"
                     src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`}
                     alt={movie?.title}
+                    style={{background:"linear-gradient(transparent 0%, transparent 65%, rgba(0, 0, 0, 0.7) 77%, rgb(0, 0, 0) 85%, rgb(0, 0, 0) 100%);"}}
                   />
                 )}
                 {/* style={{marginLeft:"-63%"}} */}
@@ -188,11 +190,11 @@ function Overview() {
         <div className="sideName">
           <img src={image1} alt="moviesidecrd" style={{ backgroundColor: "white" }} />
 
-          <div className="details">
+          <div className="details-ov2">
             <div className="PlaybtnTime" style={{marginLeft:"-70%"}}>
               <svg
-                width="24"
-                height="24"
+                width="30"
+                height="30"
                 xmlns="http://www.w3.org/2000/svg"
                 class="ipc-icon ipc-icon--play-circle-outline-large-inline ipc-icon--inline sc-d4cb23a2-14 ejjmJF editorial-play-icon"
                 id="iconContext-play-circle-outline-large-inline"
@@ -208,18 +210,18 @@ function Overview() {
                 style={{
                   color: "white",
                   marginLeft: "2%",
-                  fontSize: "0.8rem",
+                  fontSize: "2rem",
                 }}
               >
                 2:26
               </span>
             </div>
             <div className="detailsTitle">
-              <span clasName="detailsdesc" style={{ color: "white", fontSize: "1rem" , fontWeight:"500",marginLeft:"5%",whiteSpace:"nowrap" }}>
+              <p clasName="detailsdesc">
                 Adam Sandler and Jennifer Aniston Are Back
-              </span>
-              <br />
-              <span style={{ color: "rgb(201, 196, 196)", fontSize: "1rem" ,marginLeft:"-10%"}}>Watch the 'Murder Mystery 2' Trailer</span>
+              </p>
+              {/* <br /> */}
+              <p style={{ color: "rgb(201, 196, 196)", fontSize: "1.5rem" }}>Watch the 'Murder Mystery 2' Trailer</p>
             </div>
           </div>
         </div>

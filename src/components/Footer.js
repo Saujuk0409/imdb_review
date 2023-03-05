@@ -1,10 +1,12 @@
 import React from 'react'
 import "../styles/styles.css"
+import RecentlyViewed from './RecentlyViewed'
 
 function Footer() {
   return (
     <div>
       <footer>
+      <RecentlyViewed/>
             <div className="social-media">
                   <span>
                   <a href="https://www.tiktok.com/@imdb">

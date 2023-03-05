@@ -5,6 +5,8 @@ import Logo from "../assests/signInLogo.png";
 import "../styles/styles.css";
 import { style } from "@mui/system";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../store/slice/UserSlice";
 import axios from "axios";
 import OtpPage from "./OtpPage";
 
@@ -15,6 +17,7 @@ export default function Signinagain() {
   const [password,setPassword]=useState("")
   const [open, setOpen]=useState(false);
   const navigate= useNavigate();
+  const dispatch = useDispatch();
   const Changemail= (e)=>{
     e.preventDefault();
     setMail(e.target.value);
@@ -23,14 +26,27 @@ export default function Signinagain() {
     e.preventDefault();
     setPassword(e.target.value);
   }    
+ 
   const onhandleSubmit = async (e) => {
     e.preventDefault();
     console.log(mail,password);
-    const response = await axios.
-    post("http://192.168.1.118:8000/imdbapi/signup",{Email:"mail",password:"password"}).
-    then(function(resp){
-      console.log(resp);
-    }) ;
+    const response = await axios.post(`${process.env.REACT_APP_IP}/imdbapi/login`,{email:mail,password:password});
+    console.log(response);
+    if(response.status===200){
+      navigate('/');
+      const token = localStorage.getItem('token');
+      console.log("token is",token)
+      const resp = await axios.post(`${process.env.REACT_APP_IP}/imdbapi/profile/${token}`,{params:{token}});
+      console.log("Profile api ",resp);
+      //setState(resp.data.id);
+      setState({type:'SET_NAME',payload:"saujanya"});
+      dispatch(setUser(setState));
+    }
+    // dispatch({type:'LOGIN'});
+    // .
+    // then(function(resp){
+    //   console.log(resp);
+    // }) ;
 
   };
   return (
@@ -78,7 +94,8 @@ export default function Signinagain() {
               type="submit"
               onClick={onhandleSubmit}
               style={{
-                marginTop: "5%",
+                marginTop: "6%",
+                padding:"4%",
                 width: "82%",
                 marginRight: "6%",
                 backgroundColor: "#f0c14b",
@@ -101,14 +118,15 @@ export default function Signinagain() {
             <Button
               type="submit"
               style={{
-                marginTop: "3%",
+                marginTop: "4%",
+                padding:"4%",
                 marginBottom: "5%",
                 width: "82%",
                 marginRight: "6%",
                 backgroundColor: "#eff0f3",
                 border: "0.8px solid black",
                 borderRadius: "5px",
-                fontSize: "0.8rem",
+                fontSize: "1rem",
                 fontWeight: "400",
                 padding: "8px",
               }}

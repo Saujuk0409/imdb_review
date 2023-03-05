@@ -4,39 +4,41 @@ import Carousel from 'better-react-carousel'
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
 import WatchCard from '../components/cards/WatchCard'
+import { useState , useEffect} from 'react'
+import axios from 'axios'
 
-const movies = [
-    {
-      image:"../../assests/smallimg.jpg",
-      title:"What the hell",
-      rating:"7.5"
-    },
-    {
-      image:"../../assests/smallimg.jpg",
-      title:"What the",
-      rating:"8.0"
-    },
-    {
-      image:"../../assests/smallimg.jpg",
-      title:"What th",
-      rating:"9.5"
-    },
-    {
-      image:"../../assests/smallimg.jpg",
-      title:"What is happenning in the world of entertainment ",
-      rating:"9.8"
-    },
-    {
-      image:"../../assests/smallimg.jpg",
-      title:"What th",
-      rating:"9.5"
-    },
-    {
-      image:"../../assests/smallimg.jpg",
-      title:"What th",
-      rating:"9.5"
-    },
-  ]
+// const movies = [
+//     {
+//       image:"../../assests/smallimg.jpg",
+//       title:"What the hell",
+//       rating:"7.5"
+//     },
+//     {
+//       image:"../../assests/smallimg.jpg",
+//       title:"What the",
+//       rating:"8.0"
+//     },
+//     {
+//       image:"../../assests/smallimg.jpg",
+//       title:"What th",
+//       rating:"9.5"
+//     },
+//     {
+//       image:"../../assests/smallimg.jpg",
+//       title:"What is happenning in the world of entertainment ",
+//       rating:"9.8"
+//     },
+//     {
+//       image:"../../assests/smallimg.jpg",
+//       title:"What th",
+//       rating:"9.5"
+//     },
+//     {
+//       image:"../../assests/smallimg.jpg",
+//       title:"What th",
+//       rating:"9.5"
+//     },
+//   ]
 
 function Exploremovies() {
 
@@ -63,12 +65,28 @@ function Exploremovies() {
       </button>
     ),
   };  
+
+  const [movies,setMovies]=useState();
+  useEffect(()=>{
+    axios
+    .get(`${process.env.REACT_APP_IP}/imdbapi/intheaters`)
+    .then(function(resp){
+        console.log("in theater data",resp.data);
+        const {data}=resp.data;
+        console.log("destructured data for in theaters",{data})
+        if(data){
+          setMovies(data);
+          // console.log("In theaters data is",movies);
+        }
+        return(resp.data);
+      }) ;
+  },[])
   return (
-    <>
+    movies ? <>
     <div className='watchcarousl' style={{paddingTop:"2%"}}>
-      <h1 style={{color:"#F5C518",marginLeft:"-60%"}}>Explore more movies & TV shows</h1>
+      <h1 style={{color:"#F5C518",left:"0%",paddingLeft:"6%"}}>Explore more movies & TV shows</h1>
       <div className='toppicks' style={{marginTop:"2.6%"}}>
-            <div className='vl' style={{borderLeft:"2px solid #F5C518"}}></div>
+            <div className='vl' style={{borderLeft:"5px solid #F5C518"}}></div>
             <h3>In theaters</h3>
             <div className="wcarrows" style={{paddingLeft:"1%",paddingTop:"0.5%"}}>
                     <div class="wcleftarrow" role="presentation">
@@ -78,7 +96,7 @@ function Exploremovies() {
                     </div>
             </div>
       </div>
-      <p style={{float:"left",color:"white",marginLeft:"-78%",marginTop:"1%",fontSize:"2.1rem",color:"grey",fontWeight:"400"}}>Somtimes near you</p>
+      <p style={{float:"left",color:"white",marginLeft:"-85%",marginTop:"0%",fontSize:"2.3rem",color:"grey",fontWeight:"400"}}>Somtimes near you</p>
       {/* <div className='wlcardcontainer' style={{marginLeft:"-2%"}}>
       <div className='SliderWrapper'>
           <Carousel cols={6} rows={1} gap={10} loop showArrows={false} 
@@ -95,18 +113,19 @@ function Exploremovies() {
       </div>
 
       </div> */}
+    {/* </div> */}
     </div>
-    <div className="scroller" style={{width:"70%",marginLeft:"14%",marginTop:"3%"}}>
+    <div className="scroller" style={{width:"70%",marginLeft:"10%",marginTop:"1%"}}>
     <Slide {...settings} slidesToScroll={6} slidesToShow={6} style={{height:"100vh"}}>
         {
             movies && movies.map((card,index)=>(
-                      <WatchCard id={card.id} image={card.image} title={card.title} rating={card.rating}/>
+                      <WatchCard id={card.id} image={card.poster} title={card.title} rating={card.imdbrating}/>
                       )
                       )
                   }
     </Slide>
     </div>
-    </>
+    </> : <div style={{color:"white"}}>"loading............"</div>
   )
 }
 

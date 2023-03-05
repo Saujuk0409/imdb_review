@@ -7,9 +7,14 @@ import reportWebVitals from './reportWebVitals';
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux';
 import { allReducers } from './store/allReducers';
-// import  userReducers  from './store/allReducers';
+import  userReducers  from './store/User/UserReducer';
 
-const store= configureStore({reducer:allReducers});
+const store= configureStore({reducer:
+  {
+    user:userReducers,
+    movies:allReducers,
+  }
+});
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>

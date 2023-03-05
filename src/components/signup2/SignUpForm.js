@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import {useSelector} from 'react-redux'
 import { signUp } from '../../store/User/UserAction';
 import axios from 'axios';
 import Logo from "../../assests/signInLogo.png";
@@ -12,13 +13,16 @@ import "../../styles/styles.css"
 const SignUpForm = () => {
   const [name,setName] = useState('')
   const [email, setEmail] = useState('');
+  const [exist,setExist] = useState(false)
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [otptoggle,setOtptoggle] = useState(false);
   const [token,setToken]= useState()
 
   const [errors, setErrors] = useState({});
-  const dispatch = useDispatch();
+  // const dispatch=useDispatch();
+  // const ruser = useSelector((state) => state.reducer.user.email);
+  // console.log(ruser);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -36,9 +40,15 @@ const SignUpForm = () => {
           // Call sign up action to update store with user data
           // console.log(response.data.token);
           // localStorage.setItem("token",response.data.token);
-          console.log("otp response is ",response);
+          if(response.data.status===403)
+          {
+
+              return(setExist(true));
+          }
           setToken(response.data)
-          dispatch(signUp(response.data));
+          // dispatch(signUp(response.data));
+          // dispatch({type:'SET_EMAIL',payload:email});
+          // dispatch({type:'SET_PASSWORD',payload:password});
           // Navigate to OTP verification page
           // ...
           setOtptoggle(!otptoggle);
@@ -52,17 +62,30 @@ const SignUpForm = () => {
 
   const validateForm = () => {
     const validationErrors = {};
+    if(exist)
+    {
+      validationErrors.email='You indicated you are a new customer, but an account already exists with the email '
+    }
     if(!name){
       validationErrors.name = 'Name is required';
     }
-    if (!email || !isValidEmail(email)) {
+    // if(ruser.email){
+    //   validationErrors.email='Email already Exists'
+    // }
+    else if (!email ) {
+      validationErrors.email='Enter your email';
+    }
+    else if(!isValidEmail(email)){
       validationErrors.email = 'Please enter a valid email address';
     }
     if (!password || password.length < 8) {
+      validationErrors.password = 'Enter your password'
+    }
+    else if(password.length < 8){
       validationErrors.password = 'Password must be at least 8 characters long';
     }
     if (password !== confirmPassword) {
-      validationErrors.confirmPassword = 'Passwords do not match';
+      validationErrors.confirmPassword = 'Passwords did not match';
     }
     return validationErrors;
   };
@@ -80,7 +103,7 @@ const SignUpForm = () => {
               <div className='signup-image'>
               <img src={Logo} alt="" />
               </div>
-              {errors.name && errors.email && errors.password && errors.confirmPassword &&
+              {errors.name || errors.email || errors.password || errors.confirmPassword &&
                 <div className='errors-div'>
                   {<h3>There was a problem</h3>}
                   {errors.name && <p className='error'>{errors.name}</p>}

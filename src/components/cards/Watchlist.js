@@ -1,6 +1,7 @@
 import React , {useEffect} from 'react'
 import  '../../styles/styles.css'
 import { useState } from 'react'
+import axios from 'axios'
 import image2 from "../../assests/smallimg.jpg"
 // import FeatuedCard from './cards/FeatuedCard'
 import Carousel from 'better-react-carousel'
@@ -12,49 +13,61 @@ import { fetchMovies } from '../../store/Actions';
 // import {Slide} from 'react-slideshow-image'
 // import 'react-slideshow-image/dist/styles.css'
 
-const moviess = [
-  {
-    id:1,
-    image:"../../assests/smallimg.jpg",
-    title:"What the hell",
-    rating:"7.5"
-  },
-  {
-    id:2,
-    image:"../../assests/smallimg.jpg",
-    title:"What the",
-    rating:"8.0"
-  },
-  {
-    id:3,
-    image:"../../assests/smallimg.jpg",
-    title:"What th",
-    rating:"9.5"
-  },
-  {
-    id:4,
-    image:"../../assests/smallimg.jpg",
-    title:"What ",
-    rating:"9.8"
-  },
-  {
-    id:5,
-    image:"../../assests/smallimg.jpg",
-    title:"What th",
-    rating:"9.5"
-  },
-  {
-    id:6,
-    image:"../../assests/smallimg.jpg",
-    title:"What th",
-    rating:"9.5"
-  },
-]
+// const moviess = [
+//   {
+//     id:1,
+//     image:"../../assests/smallimg.jpg",
+//     title:"What the hell",
+//     rating:"7.5"
+//   },
+//   {
+//     id:2,
+//     image:"../../assests/smallimg.jpg",
+//     title:"What the",
+//     rating:"8.0"
+//   },
+//   {
+//     id:3,
+//     image:"../../assests/smallimg.jpg",
+//     title:"What th",
+//     rating:"9.5"
+//   },
+//   {
+//     id:4,
+//     image:"../../assests/smallimg.jpg",
+//     title:"What ",
+//     rating:"9.8"
+//   },
+//   {
+//     id:5,
+//     image:"../../assests/smallimg.jpg",
+//     title:"What th",
+//     rating:"9.5"
+//   },
+//   {
+//     id:6,
+//     image:"../../assests/smallimg.jpg",
+//     title:"What th",
+//     rating:"9.5"
+//   },
+// ]
 function Watchlist() {
 
   const { movies } = useSelector((state) => state.movies);
 	const dispatch = useDispatch();
-
+  const [moviess,setMoviess] = useState();
+  useEffect(()=>{
+    axios.get(`${process.env.REACT_APP_IP}/imdbapi/toppicks`)
+    .then(function(resp){
+        console.log("top picks data is", resp.data);
+        const { data } = resp.data;
+        if (data) {
+          setMoviess(data);
+          console.log("top picks destructured data is", { data });
+        }
+        return resp.data;
+      });
+  }, [])
 	const fetchMoviesAct = async () => {
 		try {
 			// const data = await MoviesApi.getMovies();
@@ -116,7 +129,7 @@ function Watchlist() {
                     </div>
             </div>
         </div>
-        <p style={{float:"left",color:"white",marginLeft:"-78%",marginTop:"1%",fontSize:"2.1rem",color:"grey",fontWeight:"400"}}>This week's top TV and movies</p>
+        <p style={{float:"left",color:"white",marginLeft:"-78%",marginTop:"1%",fontSize:"2.5rem",color:"grey",fontWeight:"400"}}>This week's top TV and movies</p>
       {/* <div className='wlcardcontainer' style={{marginLeft:"-2%"}}> */}
       {/* <div className='SliderWrapper'>
           <Carousel {...settings} cols={6} rows={1} gap={10} loop showArrows={false} 
@@ -134,11 +147,11 @@ function Watchlist() {
 
       {/* </div> */}
     </div>
-    <div className="scroller" style={{width:"70%",marginLeft:"14%",marginTop:"3%"}}>
+    <div className="scroller" style={{width:"70%",marginLeft:"10%",marginTop:"1%"}}>
     <Slide {...settings} slidesToScroll={6} slidesToShow={6} style={{height:"100vh"}}>
         {
             moviess && moviess.map((card,index)=>(
-                      <WatchCard id={card.id} image={card.image} desc={card.title} cat={card.type}/>
+                      <WatchCard id={card.id} image={card.poster} title={card.title} rating={card.imdbrating}/>
                       )
                       )
                   }
